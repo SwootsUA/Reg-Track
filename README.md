@@ -40,6 +40,6 @@ This Python script is a Windows registry auditing tool that extracts software in
     Open `start.bat` file.
 
 3. Interact:
-    The script will perform its operations, give you analisys on what change from the last time and prompt you to press Enter before exiting.
+    The script will perform its operations, give you analisys on what have changed from the last time and prompt you to press Enter before exiting.
 
 
