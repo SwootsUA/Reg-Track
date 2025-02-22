@@ -7,7 +7,7 @@ import shutil
 import pandas as pd
 import re
 
-def get_display_name(oKey, debug=False):
+def get_display_name(oKey: str, debug: bool = False) -> str:
     candidates = [
         "DisplayName",
         "ProductName",
@@ -29,7 +29,7 @@ def get_display_name(oKey, debug=False):
             continue
     return "None"
 
-def findDisplayNames(path, number_of_keys=4096, user=False, debug=False):
+def findDisplayNames(path: str, number_of_keys: int = 4096, user: bool = False, debug: str = False) -> list[str]: 
     hive = winreg.HKEY_CURRENT_USER if user else winreg.HKEY_LOCAL_MACHINE
     aReg = winreg.ConnectRegistry(None, hive)
     aKey = winreg.OpenKey(aReg, path)
@@ -55,7 +55,7 @@ def findDisplayNames(path, number_of_keys=4096, user=False, debug=False):
             print(err)
     return returnArray
 
-def save_excel(path, file_name, data, screen_column_count = 29, sheet_name = "data"):
+def save_excel(path: str, file_name: str, data: list[str], screen_column_count: int = 29, sheet_name: str = "data"):
     default_column_width = 8.43
     total_available_width = screen_column_count * default_column_width
     
@@ -97,8 +97,8 @@ def save_excel(path, file_name, data, screen_column_count = 29, sheet_name = "da
     print("Saving file")
     wb.save(f"{path}\\{file_name}.xlsx")
 
-def move_old_excel_files(path, today_str):
-    today_date = datetime.strptime(today_str, "%Y-%m-%d").date()
+def move_old_excel_files(path: str, today: str):
+    today_date = datetime.strptime(today, "%Y-%m-%d").date()
     
     excel_files = [f for f in os.listdir(path) if os.path.isfile(f) and f.lower().endswith(('.xlsx', '.xls'))]
 
@@ -108,7 +108,7 @@ def move_old_excel_files(path, today_str):
     for file in excel_files:
         base, ext = os.path.splitext(file)
         
-        if base == today_str:
+        if base == today:
             keep_files.add(file)
         else:
             try:
