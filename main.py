@@ -137,8 +137,12 @@ def move_old_excel_files(path, today_str):
 def read_and_compare(folder_path: str, current_date: str):
     excel_files = [f for f in os.listdir(folder_path) if re.match(r'\d{4}-\d{2}-\d{2}\.xlsx$', f)]
     
-    if len(excel_files) != 2:
-        raise ValueError("Folder must contain exactly two Excel files with the format Y-M-D.xlsx")
+    if len(excel_files) < 2:
+        print("\n Nothing to compare")
+        return
+    if len(excel_files) > 2:
+        print("\n The folder has extra .xlsx files, remove them (there should be no more than 2 of them)")
+        return
 
     excel_files.sort()
     old_file, new_file = excel_files if current_date in excel_files[1] else excel_files[::-1]
