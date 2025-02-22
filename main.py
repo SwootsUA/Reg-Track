@@ -31,10 +31,12 @@ def get_display_name(oKey: str, debug: bool = False) -> str:
 
 def findDisplayNames(path: str, number_of_keys: int = 4096, user: bool = False, debug: str = False) -> list[str]: 
     hive = winreg.HKEY_CURRENT_USER if user else winreg.HKEY_LOCAL_MACHINE
+    hive_str = "HKEY_CURRENT_USER" if user else "HKEY_LOCAL_MACHINE"
     aReg = winreg.ConnectRegistry(None, hive)
     aKey = winreg.OpenKey(aReg, path)
     
-    print(r"*** Reading from %s ***" % path)
+
+    print(f"*** Reading from {hive_str}\\{path} ***")
     returnArray = []
     
     for i in range(number_of_keys):
@@ -202,7 +204,7 @@ def main():
     sheet_data = []
 
     for regestry_folder in regestry_folders:
-        data = findDisplayNames(regestry_folder[0])
+        data = findDisplayNames(regestry_folder[0], user=regestry_folder[1])
 
         if regestry_folder[1]:
             data.insert(0, f"HKEY_CURRENT_USER\\{regestry_folder[0]}")
