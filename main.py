@@ -29,7 +29,7 @@ def get_display_name(oKey: str, debug: bool = False) -> str:
             continue
     return "None"
 
-def findDisplayNames(path: str, number_of_keys: int = 4096, user: bool = False, debug: str = False) -> list[str]: 
+def find_display_names(path: str, number_of_keys: int = 4096, user: bool = False, debug: str = False) -> list[str]: 
     hive = winreg.HKEY_CURRENT_USER if user else winreg.HKEY_LOCAL_MACHINE
     hive_str = "HKEY_CURRENT_USER" if user else "HKEY_LOCAL_MACHINE"
     aReg = winreg.ConnectRegistry(None, hive)
@@ -152,7 +152,7 @@ def read_and_compare(folder_path: str, current_date: str):
     old_df = pd.read_excel(os.path.join(folder_path, old_file), dtype=str)
     new_df = pd.read_excel(os.path.join(folder_path, new_file), dtype=str)
 
-    print(f"\n=========== Comparing {old_file} to {new_file} ===========\n")
+    print(f"\n=========== Comparing {new_file} to {old_file} ===========\n")
 
     old_columns = set(old_df.columns)
     new_columns = set(new_df.columns)
@@ -204,12 +204,10 @@ def main():
     sheet_data = []
 
     for regestry_folder in regestry_folders:
-        data = findDisplayNames(regestry_folder[0], user=regestry_folder[1])
+        data = find_display_names(regestry_folder[0], user = regestry_folder[1])
 
-        if regestry_folder[1]:
-            data.insert(0, f"HKEY_CURRENT_USER\\{regestry_folder[0]}")
-        else:
-            data.insert(0, f"HKEY_LOCAL_MACHINE\\{regestry_folder[0]}")
+        root = "HKEY_CURRENT_USER" if regestry_folder[1] else "HKEY_LOCAL_MACHINE" 
+        data.insert(0, f"{root}\\{regestry_folder[0]}")
 
         sheet_data.append(data)
 
